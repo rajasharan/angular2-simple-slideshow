@@ -1,7 +1,7 @@
 <h1>{{title}}, {{sampler | async}}</h1>
 <h2>{{addressObservable | async}}</h2>
 
-<input type="text" [ngModel]="address" (ngModelChange)="setLocation($event)">
+<input type="text" [value]="address" [formControl]="addressControl">
 
 <sebm-google-map [latitude]="lat" [longitude]="lng">
   <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
