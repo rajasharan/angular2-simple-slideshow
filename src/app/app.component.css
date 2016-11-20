@@ -1,3 +1,71 @@
 .sebm-google-map-container {
   height: 90vh;
 }
+
+:host /deep/ .title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15vw;
+  margin: 15px;
+  margin-top: 0px;
+  color: rgb(134, 134, 134);
+  text-align: center;
+  white-space: nowrap;
+}
+
+:host /deep/ .subtitle {
+  font-family: 'Roboto', sans-serif;
+  font-size: 4vw;
+  margin: 15px;
+}
+
+:host /deep/ p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 4vw;
+  font-size: 2.25vw;
+  margin-left: 5px;
+}
+
+:host /deep/ p code {
+  font-family: 'Inconsolata', monospace;
+  font-style: italic;
+  color: #880000;
+  background-color: #f7f7f7;
+}
+
+:host /deep/ li code {
+  font-family: 'Inconsolata', monospace;
+  font-style: italic;
+  color: #880000;
+  background-color: #f7f7f7;
+}
+
+:host /deep/ pre {
+  font-family: 'Inconsolata', monospace;
+  font-size: 2.25vw;
+  margin: 0px;
+  margin-bottom: 3px;
+  margin-left: 40px;
+  padding: 15px;
+  background-color: #f7f7f7;
+}
+
+:host .marked {
+  height: 100vh;
+  overflow: auto; 
+}
+
+:host .prev, .next {
+  padding: 10px;
+  margin: 15px;
+}
+
+:host .prev {
+  position: fixed;
+  top: 50%;
+}
+
+:host .next {
+  position: fixed;
+  top: 50%;
+  right: 0%;
+}

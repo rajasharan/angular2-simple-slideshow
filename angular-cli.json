@@ -1,7 +1,7 @@
 {
   "project": {
     "version": "1.0.0-beta.20-4",
-    "name": "gmaps-project"
+    "name": "angular2-simple-slideshow"
   },
   "apps": [
     {
@@ -9,7 +9,8 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "slides"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -17,10 +18,11 @@
       "tsconfig": "tsconfig.json",
       "prefix": "app",
       "mobile": false,
-      "styles": [
-        "styles.css"
+      "styles": ["styles.css"],
+      "scripts": [
+        "assets/hljs.min.js",
+        "assets/hljs.ts.min.js"
       ],
-      "scripts": [],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",

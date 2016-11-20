@@ -1,6 +1,6 @@
 import { GmapsProjectPage } from './app.po';
 
-describe('gmaps-project App', function() {
+describe('angular2-simple-slideshow App', function() {
   let page: GmapsProjectPage;
 
   beforeEach(() => {

@@ -1,14 +1,7 @@
 import { Component, OnInit, OnChanges, DoCheck } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { Subscriber } from 'rxjs/Subscriber';
+import { Http, Response } from '@angular/http';
 
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/sampleTime';
-
-import { MapsAPILoader } from 'angular2-google-maps/core';
-
-declare var google: any;
+import * as marked from 'marked';
 
 @Component({
   selector: 'app-root',
@@ -16,45 +9,51 @@ declare var google: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnChanges, DoCheck {
-  title = 'app works!';
-  address: string = '';
-  addressControl: FormControl = new FormControl();
-  geocoder: any;
-  lat: string;
-  lng: string;
-  sampler: Observable<number>;
-  addressObservable: Observable<string>;
+  renderer: MarkedRenderer;
+  html: string;
+  opacity: number = 0;
+  currentSlide = 0;
 
-  constructor(private mapLoader: MapsAPILoader) {
-    this.sampler = new Observable<number>((sub: Subscriber<number>) => {
-      let i = 0;
-      setInterval(() => sub.next(i++), 800)
-    }).sampleTime(4000);
-  }
+  constructor(private http: Http) {}
 
   ngOnInit(): void {
-    this.mapLoader.load().then(() => {
-      console.log('google maps loaded', google);
-      this.geocoder = new google.maps.Geocoder();
-    }).catch((r) => console.log(r));
+    this.renderer = new marked.Renderer;
+    this.renderer.heading = (text, level) => {
+      let title: string = level === 1? 'title':'subtitle';
+      let linebreak: string = level === 1? '':'';
+      return `<h${level} class="${title}">${text}</h${level}>${linebreak}`
+    }
 
-    this.addressObservable = this.addressControl.valueChanges.debounceTime(1000);
-    this.addressObservable.subscribe(newVal => this.setLocation(newVal));
-    //this.addressControl.valueChanges.debounceTime(1000).subscribe(newVal => this.setLocation(newVal));
+    this.http.get(`slides/slide_${this.currentSlide + 1}.md`).subscribe(this.renderSlide(() => { this.currentSlide++ }));
   }
 
-  setLocation(address: string): void {
-    console.log(address);
-    this.geocoder.geocode({address}, (result, status) => {
-      if (status === 'OK') {
-        this.lat = result[0].geometry.location.lat();
-        this.lng = result[0].geometry.location.lng();
+  private renderSlide(slideCalculator: Function): (Response) => void {
+    return (res: Response) => {
+      this.html = marked(res.text(), {
+        gfm: true, renderer: this.renderer,
+        highlight: (code, lang) => {
+          console.log(`hljs(${lang}):\n${code}`);
+          return hljs.highlightAuto(code, [lang]).value;
+        }
+      });
+      slideCalculator();
+    }
+  }
 
-        console.log(`lat: ${this.lat}, lng: ${this.lng}`);
-      } else {
-        console.log(result, status);
-      }
-    });
+  nextSlide(): void {
+    this.http.get(`slides/slide_${this.currentSlide + 1}.md`).subscribe(this.renderSlide(() => { this.currentSlide++ }));
+  }
+
+  prevSlide(): void {
+    this.http.get(`slides/slide_${this.currentSlide - 1}.md`).subscribe(this.renderSlide(() => { this.currentSlide-- }));
+  }
+
+  increaseOpacity(): void {
+    this.opacity = 0.3;
+  }
+
+  decreaseOpacity(): void {
+    this.opacity = 0;
   }
 
   ngDoCheck(): void {

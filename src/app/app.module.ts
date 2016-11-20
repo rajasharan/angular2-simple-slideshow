@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AgmCoreModule } from 'angular2-google-maps/core';
-
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -15,8 +13,7 @@ import { AppComponent } from './app.component';
     BrowserModule,
     //FormsModule,
     ReactiveFormsModule,
-    HttpModule,
-    AgmCoreModule.forRoot()
+    HttpModule
   ],
   providers: [],
   bootstrap: [AppComponent]

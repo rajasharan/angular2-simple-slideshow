@@ -1,8 +1,9 @@
-<h1>{{title}}, {{sampler | async}}</h1>
-<h2>{{addressObservable | async}}</h2>
+<div class="marked" [innerHtml]="html"></div>
 
-<input type="text" [value]="address" [formControl]="addressControl">
+<i class="fa fa-angle-left fa-5x prev" aria-hidden="true"
+    [style.opacity]="opacity" (click)="prevSlide()"
+    (mouseenter)="increaseOpacity()" (mouseleave)="decreaseOpacity()"></i>
 
-<sebm-google-map [latitude]="lat" [longitude]="lng">
-  <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
-</sebm-google-map>
+<i class="fa fa-angle-right fa-5x next" aria-hidden="true" 
+    [style.opacity]="opacity" (click)="nextSlide()"
+    (mouseenter)="increaseOpacity()" (mouseleave)="decreaseOpacity()"></i>
